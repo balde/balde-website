@@ -1,0 +1,115 @@
+## Autotools settings
+
+ACLOCAL_AMFLAGS = -I m4
+
+EXTRA_DIST = \
+	autogen.sh \
+	src/templates/base.html \
+	src/static/resources.xml \
+	src/static/screen.css
+
+CLEANFILES =
+
+noinst_LTLIBRARIES = \
+	libfoo.la
+
+noinst_HEADERS = \
+	src/foo.h
+
+bin_PROGRAMS = \
+	balde-website
+
+check_PROGRAMS = \
+	tests/check_foo
+
+TESTS = \
+	$(check_PROGRAMS)
+
+
+## Build rules: convenience library
+
+libfoo_la_SOURCES = \
+	src/foo.c
+
+libfoo_la_CFLAGS = \
+	$(BALDE_CFLAGS) \
+	-I$(top_srcdir)/src
+
+libfoo_la_LIBADD = \
+	$(BALDE_LIBS)
+
+src/templates/%.c: src/templates/%.html
+	$(AM_V_GEN)$(BALDE_TEMPLATE_GEN) $< $@
+
+src/templates/%.h: src/templates/%.html
+	$(AM_V_GEN)$(BALDE_TEMPLATE_GEN) $< $@
+
+src/static/resources.c: src/static/resources.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir $(top_srcdir)/src/static $(top_srcdir)/src/static/resources.xml)
+	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --generate --sourcedir $(top_srcdir)/src/static --target $@ $<
+
+src/static/resources.h: src/static/resources.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir $(top_srcdir)/src/static $(top_srcdir)/src/static/resources.xml)
+	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --generate --sourcedir $(top_srcdir)/src/static --target $@ $<
+
+
+## Build rules: binary
+
+balde_website_SOURCES = \
+	src/main.c
+
+nodist_balde_website_SOURCES = \
+	src/templates/base.c \
+	src/templates/base.h \
+	src/static/resources.c \
+	src/static/resources.h
+
+src/balde_website-main.$(OBJEXT): $(nodist_balde_website_SOURCES)
+
+balde_website_CFLAGS = \
+	$(BALDE_CFLAGS) \
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src
+
+balde_website_LDADD = \
+	libfoo.la \
+	$(BALDE_LIBS)
+
+
+## Build rules: tests
+
+tests_check_foo_SOURCES = \
+	tests/check_foo.c
+
+tests_check_foo_CFLAGS = \
+	$(BALDE_CFLAGS) \
+	-I$(top_srcdir)/src
+
+tests_check_foo_LDFLAGS = \
+	-no-install
+
+tests_check_foo_LDADD = \
+	libfoo.la \
+	$(BALDE_LIBS)
+
+
+## Helpers: Local clean
+
+clean-local:
+	rm -f src/{templates,static}/*.{c,h}
+
+
+## Helpers: Valgrind runners
+
+if USE_VALGRIND
+valgrind: all
+	$(MAKE) check TESTS_ENVIRONMENT=" \
+		G_SLICE=always-malloc \
+		G_DEBUG=gc-friendly \
+		$(LIBTOOL) \
+			--mode=execute \
+			$(VALGRIND) \
+				--tool=memcheck \
+				--leak-check=full \
+				--leak-resolution=high \
+				--num-callers=20 \
+				--show-possibly-lost=no"
+endif
