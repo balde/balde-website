@@ -6,7 +6,9 @@ EXTRA_DIST = \
 	autogen.sh \
 	src/templates/base.html \
 	src/static/resources.xml \
-	src/static/screen.css
+	src/static/main.css \
+	src/static/balde-logo.ico \
+	src/static/balde-logo.png
 
 CLEANFILES =
 

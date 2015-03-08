@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/static">
-        <file>screen.css</file>
+        <file>main.css</file>
+        <file>balde-logo.ico</file>
+        <file>balde-logo.png</file>
     </gresource>
 </gresources>

@@ -1,0 +1,98 @@
+      <section class="site">
+        <header>
+          <h1>Balde is easy...</h1>
+        </header>
+
+<pre><span class="cp">#include &lt;balde.h&gt;</span>
+
+<span class="kt">balde_response_t</span><span class="o">*</span>
+<span class="nf">hello</span><span class="p">(</span><span class="kt">balde_app_t</span> <span class="o">*</span><span class="n">app</span><span class="p">,</span> <span class="kt">balde_request_t</span> <span class="o">*</span><span class="n">request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">balde_make_response</span><span class="p">(</span><span class="s">&quot;Hello World! I&#39;m the balde! :D&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">balde_app_t</span> <span class="o">*</span><span class="n">app</span> <span class="o">=</span> <span class="n">balde_app_init</span><span class="p">();</span>
+    <span class="n">balde_app_add_url_rule</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">BALDE_HTTP_GET</span><span class="p">,</span>
+        <span class="n">hello</span><span class="p">);</span>
+    <span class="n">balde_app_run</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+    <span class="n">balde_app_free</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+
+      </section>
+      <section class="site">
+        <header>
+          <h1>Balde is fast</h1>
+        </header>
+        <div class="half">
+          <p>
+            It is designed to be fast, simple, and memory efficient. Most of its architecture
+            is based on other microframeworks, like Flask, and it can run on any web server
+            that supports FastCGI.
+          </p>
+          <p>
+            With balde you can serve hundreds of requests per second with a minimal
+            memory footprint and all the performance features provided by FastCGI.
+          </p>
+        </div>
+      </section>
+      <section class="site">
+        <header>
+          <h1>Features</h1>
+        </header>
+        <ul class="feature-list">
+          <li>Simple templating engine, that converts markup to C code that is linked directly to the application binary.</li>
+          <li>Static resources are embedded and served from the application binary.</li>
+          <li>RESTful request dispatching. Supports most HTTP methods.</li>
+          <li>Reverse resolution of URLs (similar to Flask's "url_for" function).</li>
+          <li>Compatible with FastCGI and CGI servers.</li>
+          <li>Runs on any GLib-capable system.</li>
+        </ul>
+      </section>
+      <section class="site">
+        <header>
+          <h1>Upcoming features</h1>
+        </header>
+        <ul class="feature-list">
+          <li>Secure cookies (client side sessions).</li>
+          <li>File uploads.</li>
+        </ul>
+      </section>
+      <section class="site">
+        <header>
+          <h1>Online tests</h1>
+        </header>
+        <p>
+          All the code pushed to our <a href="https://github.com/balde/balde" target="_blank">Github repository</a>
+          is tested by <a href="https://ci.rgm.io/job/balde/" target="_blank">a Jenkins instance</a>, and the results
+          can be seen here:
+          <br>
+          <a href="https://ci.rgm.io/job/balde/">
+            <img src="https://ci.rgm.io/buildStatus/icon?job=balde">
+          </a>
+        </p>
+      </section>
+      <section class="site">
+        <header>
+          <h1>Contribute</h1>
+        </header>
+        <p>
+          Balde project is a work in progress. If you are interested in help on its development
+          you can fork our GitHub repository <a href="https://github.com/balde/balde/fork" target="_blank">here</a>
+          and submit a pull-request with your modifications.
+        </p>
+      </section>
+      <section class="site">
+        <header>
+          <h1>License</h1>
+        </header>
+        <p>
+          Balde is free software, released under the
+          <a href="https://raw.githubusercontent.com/balde/balde/master/COPYING" target="_blank">LGPL 2.1</a> license.
+        </p>
+      </section>
+    </div>
