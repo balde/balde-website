@@ -40,10 +40,13 @@ libfoo_la_CFLAGS = \
 libfoo_la_LIBADD = \
 	$(BALDE_LIBS)
 
-src/templates/%.c: src/templates/%.html
+
+### Templates (add 2 rules per template, one for .c and one for .h)
+
+src/templates/base.c: $(shell $(BALDE_TEMPLATE_GEN) --generate-dependencies $(top_srcdir)/src/templates/base.html)
 	$(AM_V_GEN)$(BALDE_TEMPLATE_GEN) $< $@
 
-src/templates/%.h: src/templates/%.html
+src/templates/base.h: $(shell $(BALDE_TEMPLATE_GEN) --generate-dependencies $(top_srcdir)/src/templates/base.html)
 	$(AM_V_GEN)$(BALDE_TEMPLATE_GEN) $< $@
 
 src/static/resources.c: src/static/resources.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir $(top_srcdir)/src/static $(top_srcdir)/src/static/resources.xml)
