@@ -49,6 +49,9 @@ src/templates/base.c: $(shell $(BALDE_TEMPLATE_GEN) --generate-dependencies $(to
 src/templates/base.h: $(shell $(BALDE_TEMPLATE_GEN) --generate-dependencies $(top_srcdir)/src/templates/base.html)
 	$(AM_V_GEN)$(BALDE_TEMPLATE_GEN) $< $@
 
+
+### Static resources
+
 src/static/resources.c: src/static/resources.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir $(top_srcdir)/src/static $(top_srcdir)/src/static/resources.xml)
 	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --generate --sourcedir $(top_srcdir)/src/static --target $@ $<
 
